@@ -1,0 +1,123 @@
+# Blender MTL File: 'tower.blend'
+# Material Count: 11
+
+newmtl StoneStep
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.518182 0.518182 0.518182
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\STEP_COLOR.png
+
+newmtl blackWodd
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\BLACKWOOD_COLOR.png
+
+newmtl door
+Ns 99.092964
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.409091 0.409091 0.409091
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\TOWERDOOR_COLOR.png
+
+newmtl highRoff
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.209091 0.209091 0.209091
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\HIGHROOF_COLOR.png
+
+newmtl plate
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.105265 0.105265 0.105265
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\PLATE_COLOR.png
+
+newmtl roof
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.209091 0.209091 0.209091
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\ROOF_COLOR.png
+
+newmtl towercolor
+Ns 125.033059
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\TOWER_COLOR.png
+
+newmtl whitePlate
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\WHITEPLATE_COLOR.png
+
+newmtl whiteStone
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\WHITESTEP_COLOR.png
+
+newmtl woodPillar
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\REDWOOD_COLOR.png
+
+newmtl wood_plane
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd F:\\Developments\\URFU proj\\game\\textures\\WOODPLANE_COLOR.png
