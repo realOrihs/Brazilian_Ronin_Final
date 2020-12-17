@@ -15,6 +15,7 @@ namespace Invector.vCharacterController
         public Image hp2;
         public Image hp3;
 
+        public bool isAlive = true;
         private bool IsGlide = false;
         private Animator playerAnim;
 
@@ -86,18 +87,19 @@ namespace Invector.vCharacterController
 
         if (healthPoints < 3)
             {
-                hp1.gameObject.SetActive(true);
-                hp2.gameObject.SetActive(true);
-                hp3.gameObject.SetActive(false);
+                //hp1.gameObject.SetActive(true);
+                //hp2.gameObject.SetActive(true);
+                //hp3.gameObject.SetActive(false);
                 if (healthPoints < 2)
                 {
-                    hp1.gameObject.SetActive(true);
-                    hp2.gameObject.SetActive(false);
-                    hp3.gameObject.SetActive(false);
+                    //hp1.gameObject.SetActive(true);
+                    //hp2.gameObject.SetActive(false);
+                    //hp3.gameObject.SetActive(false);
                     if (healthPoints < 1)
                     {
-                        hp1.gameObject.SetActive(false);
+                        //hp1.gameObject.SetActive(false);
                         playerAnim.SetBool("IsDead", true);
+                        isAlive = false;
                     }
                 }
             }

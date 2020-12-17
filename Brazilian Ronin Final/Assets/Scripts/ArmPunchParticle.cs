@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ArmPunchParticle : MonoBehaviour
 {
-    public ParticleSystem rightPunch;
+    public GameObject punchPartical;
+    public CameraShake cameraShake;
 
     void Start()
     {
-        
+        cameraShake = FindObjectOfType<CameraShake>();
     }
 
     // Update is called once per frame
@@ -19,10 +20,35 @@ public class ArmPunchParticle : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "Enemy")
-        //{
-        //rightPunch.enableEmission = !rightPunch.enableEmission;
-        //}
+        if (other.tag == "Enemy")
+        {
+            //StartCoroutine(Blink());
+            Blinking();
+            cameraShake.Shake();
+        }
     }
 
+    public void Blinking()
+    {
+        punchPartical.SetActive(true);
+        Invoke("UnBlink", 0.5f);
+    }
+
+    public void UnBlink()
+    {
+        punchPartical.SetActive(false);
+    }
+    //public IEnumerator Blink()
+    //{
+    //    punchPartical.SetActive(true);
+    //    yield return new WaitForSeconds(1);
+    //    punchPartical.SetActive(false);
+    //}
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        punchPartical.SetActive(false);
+    //    }
+    //}
 }

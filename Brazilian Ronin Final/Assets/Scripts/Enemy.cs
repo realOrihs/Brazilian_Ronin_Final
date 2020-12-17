@@ -3,89 +3,100 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+namespace Invector.vCharacterController
 {
-    public GameObject player;
-    public GameObject attackTrigger;
-    public float distance;
-    NavMeshAgent nav;
-    public float triggerRadius = 10;
-    public float healthPoints = 3f;
-    private Animator anim;
-
-    public bool isDead = false;
-    void Start()
+    public class Enemy : MonoBehaviour
     {
-        nav = GetComponent<NavMeshAgent>();
-        anim = gameObject.GetComponent<Animator>();
-    }
+        public GameObject playerBody;
+        public Player player;
+        public GameObject attackTrigger;
+        public float distance;
+        NavMeshAgent nav;
+        public float triggerRadius = 10;
+        public float healthPoints = 3f;
+        private Animator anim;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isDead)
+        public bool isDead = false;
+        void Start()
         {
-            attackTrigger.SetActive(false);
-            distance = Vector3.Distance(player.transform.position, transform.position);
+            nav = GetComponent<NavMeshAgent>();
+            anim = gameObject.GetComponent<Animator>();
+            player = playerBody.GetComponent<Player>();
+        }
 
-            if (healthPoints < 1)
+        // Update is called once per frame
+        void Update()
+        {
+            if (!isDead)
             {
-                isDead = true;
-                anim.SetBool("IsDead", isDead);
-            }
+                attackTrigger.SetActive(false);
+                distance = Vector3.Distance(player.transform.position, transform.position);
 
-            if (distance > triggerRadius)
-            {
-                nav.enabled = false;
-                anim.SetTrigger("Idle");
-            }
-            else
-            {
-                if (distance < nav.stoppingDistance)
+                if (healthPoints < 1)
                 {
-                    LookAtPlayer();
-                    if (!attackTrigger.activeInHierarchy)
-                    {
-                        StartCoroutine(AttackCoroutine());
-                    }
+                    isDead = true;
+                    anim.SetBool("IsDead", isDead);
+                }
+
+                if (distance > triggerRadius || !player.isAlive)
+                {
+                    nav.enabled = false;
+                    anim.SetTrigger("Idle");
                 }
                 else
                 {
-                    nav.enabled = true;
-                    nav.SetDestination(player.transform.position);
-                    anim.SetTrigger("Run");
+                    if (distance < nav.stoppingDistance)
+                    {
+                        LookAtPlayer();
+                        if (!attackTrigger.activeInHierarchy)
+                        {
+                            Attack();
+                        }
+                    }
+                    else
+                    {
+                        nav.enabled = true;
+                        nav.SetDestination(player.transform.position);
+                        anim.SetTrigger("Run");
+                    }
                 }
             }
         }
-    }
 
-    void LookAtPlayer()
-    {
-        Vector3 direction = (player.transform.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "PlayerAttack" && !isDead)
+        void LookAtPlayer()
         {
-            Debug.Log("Get Damage");
-            healthPoints -= 1;
-            anim.SetTrigger("Hit");
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
-    }
 
-    private IEnumerator AttackCoroutine()
-    {
-        anim.SetTrigger("Idle");
-        anim.SetTrigger("Attack");
-        yield return new WaitForSeconds(2);
-    }
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "PlayerAttack" && !isDead)
+            {
+                Debug.Log("Get Damage");
+                healthPoints -= 1;
+                anim.SetTrigger("Hit");
+            }
+        }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, triggerRadius);
+        private void Attack()
+        {
+            anim.SetTrigger("Idle");
+            anim.SetTrigger("Attack");
+            attackTrigger.SetActive(true);
+            Invoke("OffAttack", 1.5f);
+        }
+
+        public void OffAttack()
+        {
+            attackTrigger.SetActive(false);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, triggerRadius);
+        }
     }
 }
