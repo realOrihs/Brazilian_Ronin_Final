@@ -7,24 +7,17 @@ namespace Invector.vCharacterController
 {
     public class Player : MonoBehaviour
     {
+        public float x;
+        public float y;
         public Rigidbody rig;
         public float healthPoints = 3f;
         public Image hp1;
         public Image hp2;
         public Image hp3;
 
-        public GameObject attackZone1;
-        public GameObject attackZone2;
-
         public bool isAlive = true;
         private bool IsGlide = false;
-        public Animator playerAnim;
-
-        public AudioSource soundGetDamage;
-        public AudioSource soundHit;
-        public AudioSource soundDead;
-        public AudioSource answerPhrase;
-        public bool isAnswer = true;
+        private Animator playerAnim;
 
         private Rigidbody playerBody;
 
@@ -93,7 +86,7 @@ namespace Invector.vCharacterController
             }
 
         if (healthPoints < 3)
-        {
+            {
                 //hp1.gameObject.SetActive(true);
                 //hp2.gameObject.SetActive(true);
                 //hp3.gameObject.SetActive(false);
@@ -102,11 +95,10 @@ namespace Invector.vCharacterController
                     //hp1.gameObject.SetActive(true);
                     //hp2.gameObject.SetActive(false);
                     //hp3.gameObject.SetActive(false);
-                    if (healthPoints < 1 && isAlive)
+                    if (healthPoints < 1)
                     {
                         //hp1.gameObject.SetActive(false);
                         playerAnim.SetBool("IsDead", true);
-                        soundDead.Play();
                         isAlive = false;
                     }
                 }
@@ -117,27 +109,6 @@ namespace Invector.vCharacterController
                 //hp2.gameObject.SetActive(true);
                 //hp3.gameObject.SetActive(true);
             }
-        }
-        //void OnTriggerEnter(Collider other)
-        //{
-        //    if (other.tag == "EnemyAttack")
-        //    {
-        //        Debug.Log("Damage");
-        //        healthPoints -= 1;
-        //    }
-        //}
-
-        public void Attack()
-        {
-            attackZone1.SetActive(true);
-            attackZone2.SetActive(true);
-            Invoke("AttackOff", 0.5f);
-        }
-
-        public void AttackOff()
-        {
-            attackZone1.SetActive(false);
-            attackZone2.SetActive(false);
         }
     }
 }

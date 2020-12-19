@@ -108,14 +108,10 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            var player = FindObjectOfType<Player>();
+            var Y = Input.GetAxis(rotateCameraYInput) * sensetivity;
+            var X = Input.GetAxis(rotateCameraXInput) * sensetivity;
 
-            if (player.isAlive)
-            {
-                var Y = Input.GetAxis(rotateCameraYInput) * sensetivity;
-                var X = Input.GetAxis(rotateCameraXInput) * sensetivity;
-                tpCamera.RotateCamera(X, Y);
-            }
+            tpCamera.RotateCamera(X, Y);
         }
 
         protected virtual void StrafeInput()

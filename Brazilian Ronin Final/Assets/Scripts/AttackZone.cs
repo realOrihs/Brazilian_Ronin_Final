@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Invector.vCharacterController
+public class AttackZone : MonoBehaviour
 {
-    public class AttackZone : MonoBehaviour
+    // Start is called before the first frame update
+    void Start()
     {
-        public Enemy enemy;
-        void Start()
-        {
+        
+    }
 
-        }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        gameObject.SetActive(false);
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-        void OnTriggerEnter(Collider other)
-        {
-            //gameObject.SetActive(false);
-            if(other.tag == "Player")
-                enemy.isHit = true;
-        }
-
-        public void Off()
-        {
-            //gameObject.SetActive(false);
-        }
+    public void Off()
+    {
+        gameObject.SetActive(false);
     }
 }
