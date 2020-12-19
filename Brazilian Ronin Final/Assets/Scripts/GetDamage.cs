@@ -7,13 +7,13 @@ namespace Invector.vCharacterController
     public class GetDamage : MonoBehaviour
     {
         public Player player;
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.tag == "EnemyAttack")
-            {
-                Debug.Log("Damage");
-                player.healthPoints -= 1;
-            }
-        }
+        //void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.tag == "EnemyAttack")
+        //    {
+        //        Debug.Log("Damage");
+        //        player.healthPoints -= 1;
+        //    }
+        //}
     }
 }
