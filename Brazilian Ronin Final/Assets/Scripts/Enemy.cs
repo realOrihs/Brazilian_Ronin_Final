@@ -15,8 +15,13 @@ namespace Invector.vCharacterController
         public float triggerRadius = 10;
         public float healthPoints = 3f;
         private Animator anim;
+        public AudioSource soundHit;
+        public AudioSource deadHit;
+        public AudioSource firstPhrase;
+        public bool isFirstPrase = true;
 
         public bool isDead = false;
+        public bool isHit = false;
         void Start()
         {
             nav = GetComponent<NavMeshAgent>();
@@ -36,15 +41,26 @@ namespace Invector.vCharacterController
                 {
                     isDead = true;
                     anim.SetBool("IsDead", isDead);
+                    deadHit.Play();
                 }
 
                 if (distance > triggerRadius || !player.isAlive)
                 {
                     nav.enabled = false;
                     anim.SetTrigger("Idle");
+                    isFirstPrase = true;
+                    player.isAnswer = true;
                 }
                 else
                 {
+                    if (isFirstPrase)
+                    {
+                        firstPhrase.Play();
+                        isFirstPrase = false;
+                        Invoke("PlauerAnswer", 1f);
+                        player.isAnswer = false;
+
+                    }
                     if (distance < nav.stoppingDistance)
                     {
                         LookAtPlayer();
@@ -74,6 +90,7 @@ namespace Invector.vCharacterController
         {
             if (other.tag == "PlayerAttack" && !isDead)
             {
+                soundHit.Play();
                 Debug.Log("Get Damage");
                 healthPoints -= 1;
                 anim.SetTrigger("Hit");
@@ -84,13 +101,28 @@ namespace Invector.vCharacterController
         {
             anim.SetTrigger("Idle");
             anim.SetTrigger("Attack");
-            attackTrigger.SetActive(true);
-            Invoke("OffAttack", 1.5f);
+            //attackTrigger.SetActive(true);
+            //Invoke("OffAttack", 1.5f);
         }
 
         public void OffAttack()
         {
             attackTrigger.SetActive(false);
+            if (isHit)
+            {
+                player.healthPoints -= 1;
+                player.playerAnim.SetTrigger("IsHit");
+                player.soundHit.Play();
+                if(player.healthPoints != 1)
+                    player.soundGetDamage.Play();
+                isHit = false;
+            }
+        }
+
+        void PlauerAnswer()
+        {
+            if(player.isAnswer)
+                player.answerPhrase.Play();
         }
 
         private void OnDrawGizmos()
