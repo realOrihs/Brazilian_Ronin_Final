@@ -7,10 +7,6 @@ using Invector.vCharacterController;
 public class Player : MonoBehaviour
 {
     public Rigidbody rig;
-    public float healthPoints = 3f;
-    public Image hp1;
-    public Image hp2;
-    public Image hp3;
 
     public GameObject attackZone1;
     public GameObject attackZone2;
@@ -19,11 +15,11 @@ public class Player : MonoBehaviour
     private bool IsGlide = false;
     private Animator playerAnim;
 
-    public AudioSource soundGetDamage;
-    public AudioSource soundHit;
-    public AudioSource soundDead;
-    public AudioSource answerPhrase;
-    public bool isAnswer = true;
+    //public AudioSource soundGetDamage;
+    //public AudioSource soundHit;
+    //public AudioSource soundDead;
+    //public AudioSource answerPhrase;
+    //public bool isAnswer = true;
 
     public delegate void OnCoinTake(int num, GameObject coin);
     public static event OnCoinTake TakeCoin;
@@ -68,12 +64,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
-            playerMotor.freeSpeed.runningSpeed = 1;
+            playerMotor.freeSpeed.runningSpeed = 0.5f;
+            Attack();
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", false);
-            playerMotor.freeSpeed.runningSpeed = 4;
+            playerMotor.freeSpeed.runningSpeed = 3;
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 2.5f)
         {
@@ -91,32 +88,13 @@ public class Player : MonoBehaviour
             playerBody.drag = 0;
             playerBody.useGravity = true;
         }
+        if (HPManager.HPCount < 1 && isAlive)
+        {
+            playerAnim.SetBool("IsDead", true);
+            // soundDead.Play();
+            isAlive = false;
+        }
             
-        if (healthPoints < 3)
-        {
-            //hp1.gameObject.SetActive(true);
-            //hp2.gameObject.SetActive(true);
-            //hp3.gameObject.SetActive(false);
-            if (healthPoints < 2)
-            {
-                //hp1.gameObject.SetActive(true);
-                //hp2.gameObject.SetActive(false);
-                //hp3.gameObject.SetActive(false);
-                if (healthPoints < 1 && isAlive)
-                {
-                    //hp1.gameObject.SetActive(false);
-                    playerAnim.SetBool("IsDead", true);
-                    soundDead.Play();
-                    isAlive = false;
-                }
-            }
-        }
-        else
-        {
-            //hp1.gameObject.SetActive(true);
-            //hp2.gameObject.SetActive(true);
-            //hp3.gameObject.SetActive(true);
-        }
     }
     private void OnTriggerEnter(Collider other)
     {

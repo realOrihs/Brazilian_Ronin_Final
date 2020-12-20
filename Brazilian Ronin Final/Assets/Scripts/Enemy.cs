@@ -14,10 +14,13 @@ public class Enemy : MonoBehaviour
     public float triggerRadius = 10;
     public float healthPoints = 3f;
     private Animator anim;
-    public AudioSource soundHit;
-    public AudioSource deadHit;
-    public AudioSource firstPhrase;
+    //public AudioSource soundHit;
+    //public AudioSource deadHit;
+    //public AudioSource firstPhrase;
     public bool isFirstPrase = true;
+
+    public delegate void OnDamageMake(int Damage);
+    public static event OnDamageMake MakeDamage;
 
     public bool isDead = false;
     public bool isHit = false;
@@ -40,7 +43,7 @@ public class Enemy : MonoBehaviour
             {
                 isDead = true;
                 anim.SetBool("IsDead", isDead);
-                deadHit.Play();
+                //deadHit.Play();
             }
 
             if (distance > triggerRadius || !player.isAlive)
@@ -48,16 +51,16 @@ public class Enemy : MonoBehaviour
                 nav.enabled = false;
                 anim.SetTrigger("Idle");
                 isFirstPrase = true;
-                player.isAnswer = true;
+                //player.isAnswer = true;
             }
             else
             {
                 if (isFirstPrase)
                 {
-                    firstPhrase.Play();
+                    //firstPhrase.Play();
                     isFirstPrase = false;
                     Invoke("PlauerAnswer", 1f);
-                    player.isAnswer = false;
+                    //player.isAnswer = false;
 
                 }
                 if (distance < nav.stoppingDistance)
@@ -89,7 +92,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "PlayerAttack" && !isDead)
         {
-            soundHit.Play();
+            //soundHit.Play();
             Debug.Log("Get Damage");
             healthPoints -= 1;
             anim.SetTrigger("Hit");
@@ -109,20 +112,20 @@ public class Enemy : MonoBehaviour
         attackTrigger.SetActive(false);
         if (isHit)
         {
-            player.healthPoints -= 1;
             anim.SetTrigger("IsHit");
-            player.soundHit.Play();
-            if(player.healthPoints != 1)
-                player.soundGetDamage.Play();
+            //player.soundHit.Play();
+            MakeDamage?.Invoke(1);
+            if(HPManager.HPCount != 1)
+                //player.soundGetDamage.Play();
             isHit = false;
         }
     }
 
-    void PlauerAnswer()
-    {
-        if(player.isAnswer)
-            player.answerPhrase.Play();
-    }
+    //void PlauerAnswer()
+    //{
+    //    if(player.isAnswer)
+    //        player.answerPhrase.Play();
+    //}
 
     private void OnDrawGizmos()
     {

@@ -6,8 +6,8 @@ public class ArmPunchParticle : MonoBehaviour
 {
     public GameObject punchPartical;
     public CameraShake cameraShake;
-    public AudioSource audioHit;
-    public AudioSource audioGetDamage;
+    //public AudioSource audioHit;
+    //public AudioSource audioGetDamage;
 
     void Start()
     {
@@ -25,9 +25,9 @@ public class ArmPunchParticle : MonoBehaviour
         if (other.tag == "Enemy")
         {
             //StartCoroutine(Blink());
-            audioHit.pitch = Random.Range(0.8f, 1.2f);
-            audioHit.Play();
-            audioGetDamage.Play();
+            //audioHit.pitch = Random.Range(0.8f, 1.2f);
+            //audioHit.Play();
+           // audioGetDamage.Play();
             Blinking();
             cameraShake.Shake();
         }
