@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Invector.vCharacterController;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
@@ -14,7 +16,8 @@ public class Player : MonoBehaviour
     public bool isAlive = true;
     private bool IsGlide = false;
     private Animator playerAnim;
-
+    public Volume volume;
+    public GameObject Menu;
     //public AudioSource soundGetDamage;
     //public AudioSource soundHit;
     //public AudioSource soundDead;
@@ -30,26 +33,22 @@ public class Player : MonoBehaviour
 
     private vThirdPersonController playerController;
 
-
     void Start()
     {
         playerMotor = GetComponent<vThirdPersonMotor>();
         playerController = GetComponent<vThirdPersonController>();           
-
+        playerAnim = GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody>();
-        Cursor.visible = false;
-        playerAnim = gameObject.GetComponent<Animator>();
+        EnemyAttack.MakeDamage += TakeDamage;
+        
     }
 
-    public void SetBoolAnimation()
-    {
-    }
     void Update()
     {
         //Debug.Log(playerMotor.groundDistance);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            PauseGame();
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -104,7 +103,7 @@ public class Player : MonoBehaviour
     public void Attack()
     {
         attackZone1.SetActive(true);
-        attackZone2.SetActive(true);
+        //attackZone2.SetActive(true);
         Invoke("AttackOff", 0.5f);
     }
 
@@ -114,5 +113,21 @@ public class Player : MonoBehaviour
         attackZone2.SetActive(false);
     }
 
+    public void TakeDamage(int num)
+    {
+        playerAnim.SetTrigger("IsHit");
+    }
+
+    private void PauseGame()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        DepthOfField tmp;
+        if (volume.profile.TryGet(out tmp))
+        {
+            tmp.focusDistance.value = 1f;
+        }
+        Time.timeScale = 0;
+        Menu.SetActive(true);
+    }
 }
 

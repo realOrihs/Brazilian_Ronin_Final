@@ -15,15 +15,14 @@ public class HPManager : MonoBehaviour
     private void Start()
     {
         HPCount = HPmax;
-        Enemy.MakeDamage += TakeDamage;
+        EnemyAttack.MakeDamage += TakeDamage;
         images = new Image[] { hp1,hp2,hp3 };
     }
     private void TakeDamage(int num)
     {
         HPCount -= num;
-        if (HPCount < images.Length)
-        {
-            images[HPCount].enabled = false;
-        }
+        if (HPCount < 0) HPCount = 0;
+        Debug.Log(HPCount);
+        images[HPCount].enabled = false;
     }
 }

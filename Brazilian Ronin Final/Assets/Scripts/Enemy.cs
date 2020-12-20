@@ -8,35 +8,36 @@ public class Enemy : MonoBehaviour
 {
     public GameObject playerBody;
     public Player player;
-    public GameObject attackTrigger;
+    public GameObject attackZone;
     public float distance;
-    NavMeshAgent nav;
+    private NavMeshAgent nav;
     public float triggerRadius = 10;
-    public float healthPoints = 3f;
+    private int healthPoints = 6;
     private Animator anim;
     //public AudioSource soundHit;
     //public AudioSource deadHit;
     //public AudioSource firstPhrase;
     public bool isFirstPrase = true;
 
-    public delegate void OnDamageMake(int Damage);
-    public static event OnDamageMake MakeDamage;
+    
 
     public bool isDead = false;
-    public bool isHit = false;
+    //public bool isHit = false;
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
         player = playerBody.GetComponent<Player>();
+
+        PlayerAttack.MakeDamage += TakeDamage;
     }
 
+    
     // Update is called once per frame
     void Update()
     {
         if (!isDead)
         {
-            attackTrigger.SetActive(false);
             distance = Vector3.Distance(player.transform.position, transform.position);
 
             if (healthPoints < 1)
@@ -50,7 +51,7 @@ public class Enemy : MonoBehaviour
             {
                 nav.enabled = false;
                 anim.SetTrigger("Idle");
-                isFirstPrase = true;
+                //isFirstPrase = true;
                 //player.isAnswer = true;
             }
             else
@@ -58,18 +59,15 @@ public class Enemy : MonoBehaviour
                 if (isFirstPrase)
                 {
                     //firstPhrase.Play();
-                    isFirstPrase = false;
-                    Invoke("PlauerAnswer", 1f);
+                    //isFirstPrase = false;
+                    //Invoke("PlauerAnswer", 1f);
                     //player.isAnswer = false;
 
                 }
                 if (distance < nav.stoppingDistance)
                 {
                     LookAtPlayer();
-                    if (!attackTrigger.activeInHierarchy)
-                    {
-                        Attack();
-                    }
+                    Attack();
                 }
                 else
                 {
@@ -88,37 +86,18 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void TakeDamage(int num)
     {
-        if (other.tag == "PlayerAttack" && !isDead)
-        {
-            //soundHit.Play();
-            Debug.Log("Get Damage");
-            healthPoints -= 1;
-            anim.SetTrigger("Hit");
-        }
+        //soundHit.Play();
+        Debug.Log("Get Damage");
+        healthPoints -= num;
+        anim.SetTrigger("Hit");
     }
 
     private void Attack()
     {
-        anim.SetTrigger("Idle");
+        //anim.SetTrigger("Idle");
         anim.SetTrigger("Attack");
-        //attackTrigger.SetActive(true);
-        //Invoke("OffAttack", 1.5f);
-    }
-
-    public void OffAttack()
-    {
-        attackTrigger.SetActive(false);
-        if (isHit)
-        {
-            anim.SetTrigger("IsHit");
-            //player.soundHit.Play();
-            MakeDamage?.Invoke(1);
-            if(HPManager.HPCount != 1)
-                //player.soundGetDamage.Play();
-            isHit = false;
-        }
     }
 
     //void PlauerAnswer()
@@ -127,10 +106,10 @@ public class Enemy : MonoBehaviour
     //        player.answerPhrase.Play();
     //}
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, triggerRadius);
-    }
+   // private void OnDrawGizmos()
+   //{
+   //     Gizmos.color = Color.red;
+   //     Gizmos.DrawWireSphere(transform.position, triggerRadius);
+   // }
 }
 

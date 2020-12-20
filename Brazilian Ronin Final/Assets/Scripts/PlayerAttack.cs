@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmPunchParticle : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     public GameObject punchPartical;
     public CameraShake cameraShake;
+
+    public delegate void OnDamageMake(int num);
+    public static event OnDamageMake MakeDamage;
+    private bool isCollided;
     //public AudioSource audioHit;
     //public AudioSource audioGetDamage;
 
@@ -14,25 +18,26 @@ public class ArmPunchParticle : MonoBehaviour
         cameraShake = FindObjectOfType<CameraShake>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnTriggerEnter(Collider other)
     {
+        if (isCollided) return;
+        isCollided = true;
         if (other.tag == "Enemy")
         {
             //StartCoroutine(Blink());
             //audioHit.pitch = Random.Range(0.8f, 1.2f);
             //audioHit.Play();
-           // audioGetDamage.Play();
+            // audioGetDamage.Play();
+            MakeDamage?.Invoke(1);
             Blinking();
             cameraShake.Shake();
         }
     }
 
+    void Update()
+    {
+        isCollided = false;
+    }
     public void Blinking()
     {
         punchPartical.SetActive(true);
@@ -43,6 +48,7 @@ public class ArmPunchParticle : MonoBehaviour
     {
         punchPartical.SetActive(false);
     }
+
     //public IEnumerator Blink()
     //{
     //    punchPartical.SetActive(true);
