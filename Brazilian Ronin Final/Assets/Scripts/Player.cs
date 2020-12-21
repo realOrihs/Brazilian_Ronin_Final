@@ -11,10 +11,11 @@ public class Player : MonoBehaviour
     public Rigidbody rig;
 
     public bool isAlive = true;
-    private bool IsGlide = false;
-    private Animator playerAnim;
+    private static bool IsGlide = false;
+    private static Animator playerAnim;
     public Volume volume;
     public GameObject Menu;
+    public GameObject GameOverMenu;
     //public AudioSource soundGetDamage;
     //public AudioSource soundHit;
     //public AudioSource soundDead;
@@ -27,11 +28,11 @@ public class Player : MonoBehaviour
     public delegate void PushLever();
     public static event PushLever Push;
 
-    private Rigidbody playerBody;
+    private static Rigidbody playerBody;
 
-    private vThirdPersonMotor playerMotor;
+    private static vThirdPersonMotor playerMotor;
 
-    private vThirdPersonController playerController;
+    private static vThirdPersonController playerController;
 
     void Start()
     {
@@ -39,14 +40,14 @@ public class Player : MonoBehaviour
         playerController = GetComponent<vThirdPersonController>();           
         playerAnim = GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody>();
-        EnemyAttack.MakeDamage += TakeDamage;
         
+        EnemyAttack.MakeDamage += TakeDamage;
     }
 
     void Update()
     {
         //Debug.Log(playerMotor.groundDistance);
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isAlive)
         {
             PauseGame();
         }
@@ -63,7 +64,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
+<<<<<<< Updated upstream
             //playerMotor.freeSpeed.runningSpeed = 0.5f;
+=======
+            playerMotor.freeSpeed.runningSpeed = 0.5f;
+>>>>>>> Stashed changes
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
@@ -95,6 +100,7 @@ public class Player : MonoBehaviour
             playerAnim.SetBool("IsDead", true);
             // soundDead.Play();
             isAlive = false;
+            Invoke("GameOver",0.5f);
         }
             
     }
@@ -104,8 +110,32 @@ public class Player : MonoBehaviour
     }
 
     public void TakeDamage(int num)
+<<<<<<< Updated upstream
+=======
     {
         playerAnim.SetTrigger("IsHit");
+    }
+
+    private void ChangeVignette()
+    {
+        Vignette vg;
+        if (volume.profile.TryGet(out vg))
+        {
+            vg.color.value = new Color(0.86f,0.14f,0.14f);
+            vg.intensity.value = 0.5f;
+            Invoke("ChangeVignetteOff",  1.5f);
+        }
+    }
+
+    private void ChangeVignetteOff()
+>>>>>>> Stashed changes
+    {
+        Vignette vg;
+        if (volume.profile.TryGet(out vg))
+        {
+            vg.color.value = new Color(0, 0, 0);
+            vg.intensity.value = 0.25f;
+        }
     }
 
     private void PauseGame()
@@ -118,6 +148,25 @@ public class Player : MonoBehaviour
         }
         Time.timeScale = 0;
         Menu.SetActive(true);
+    }
+
+    private void GameOver()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        DepthOfField tmp;
+        if (volume.profile.TryGet(out tmp))
+        {
+            tmp.focusDistance.value = 1f;
+        }
+        Vignette vg;
+        if (volume.profile.TryGet(out vg))
+        {
+            vg.color.value = new Color(0.86f, 0.14f, 0.14f);
+            vg.intensity.value = 0.5f;
+        }
+        Time.timeScale = 0;
+        GameOverMenu.SetActive(true);
+        
     }
 }
 

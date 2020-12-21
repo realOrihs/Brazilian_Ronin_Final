@@ -10,20 +10,19 @@ public class HPManager : MonoBehaviour
     public Image hp1;
     public Image hp2;
     public Image hp3;
-    public Image[] images;
+    public static GameObject[] images;
 
     private void Start()
     {
-        var images = GameObject.FindGameObjectsWithTag("HPImage");
+        images = GameObject.FindGameObjectsWithTag("HPImage");
         Debug.Log("start");
         HPCount = HPmax;
         EnemyAttack.MakeDamage += TakeDamage;
-        //images = new Image[] { hp1,hp2,hp3 };
      }
     private void TakeDamage(int num)
     {
         HPCount -= num;
         if (HPCount < 0) HPCount = 0;
-        images[HPCount].enabled = false;
+        images[HPCount].GetComponent<Image>().enabled = false;
     }
 }
