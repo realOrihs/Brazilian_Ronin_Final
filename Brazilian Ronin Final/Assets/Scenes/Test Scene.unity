@@ -1466,20 +1466,6 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1951619823}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &88591437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88591430}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000a585da59ef4b43a277a5c2db2c4b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1589229247}
-  tower: {fileID: 919132149186977492}
 --- !u!64 &90399140
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6825,7 +6811,7 @@ MonoBehaviour:
   horizontalInput: Horizontal
   verticallInput: Vertical
   jumpInput: 32
-  strafeInput: 9
+  strafeInput: 0
   sprintInput: 304
   rotateCameraXInput: Mouse X
   rotateCameraYInput: Mouse Y
@@ -14658,6 +14644,11 @@ PrefabInstance:
         type: 3}
       propertyPath: yMouseSensitivity
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202599562942733077, guid: dbf277d2fdbb3714db1422917184812e,
+        type: 3}
+      propertyPath: defaultDistance
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6202599562942733078, guid: dbf277d2fdbb3714db1422917184812e,
         type: 3}
