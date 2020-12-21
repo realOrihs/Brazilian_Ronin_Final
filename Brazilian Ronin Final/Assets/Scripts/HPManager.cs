@@ -15,7 +15,6 @@ public class HPManager : MonoBehaviour
     private void Start()
     {
         images = GameObject.FindGameObjectsWithTag("HPImage");
-        Debug.Log("start");
         HPCount = HPmax;
         EnemyAttack.MakeDamage += TakeDamage;
      }

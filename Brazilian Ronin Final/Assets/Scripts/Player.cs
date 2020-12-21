@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     public bool isAlive = true;
     private static bool IsGlide = false;
+    private static bool isCollided;
     private static Animator playerAnim;
     public Volume volume;
     public GameObject Menu;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        isCollided = false;
         //Debug.Log(playerMotor.groundDistance);
         if (Input.GetKeyDown(KeyCode.Escape) && isAlive)
         {
@@ -64,11 +66,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
-<<<<<<< Updated upstream
+
             //playerMotor.freeSpeed.runningSpeed = 0.5f;
-=======
+
             playerMotor.freeSpeed.runningSpeed = 0.5f;
->>>>>>> Stashed changes
+
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
@@ -100,18 +102,19 @@ public class Player : MonoBehaviour
             playerAnim.SetBool("IsDead", true);
             // soundDead.Play();
             isAlive = false;
-            Invoke("GameOver",0.5f);
+            Invoke("GameOver",1.5f);
         }
             
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (isCollided) return;
+        isCollided = true;
         if (other.tag == "Coin") TakeCoin?.Invoke(1,other.gameObject);
     }
 
     public void TakeDamage(int num)
-<<<<<<< Updated upstream
-=======
+
     {
         playerAnim.SetTrigger("IsHit");
     }
@@ -128,7 +131,7 @@ public class Player : MonoBehaviour
     }
 
     private void ChangeVignetteOff()
->>>>>>> Stashed changes
+
     {
         Vignette vg;
         if (volume.profile.TryGet(out vg))

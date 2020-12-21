@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent nav;
     public float triggerRadius = 10;
     private int healthPoints = 6;
-    private Animator anim;
+    private static Animator anim;
     //public AudioSource soundHit;
     //public AudioSource deadHit;
     //public AudioSource firstPhrase;
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
             {
                 isDead = true;
                 anim.SetBool("IsDead", isDead);
+                gameObject.GetComponent<CharacterController>().enabled = false;
                 //deadHit.Play();
             }
 
