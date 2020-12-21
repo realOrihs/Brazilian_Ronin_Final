@@ -10,9 +10,6 @@ public class Player : MonoBehaviour
 {
     public Rigidbody rig;
 
-    public GameObject attackZone1;
-    public GameObject attackZone2;
-
     public bool isAlive = true;
     private bool IsGlide = false;
     private Animator playerAnim;
@@ -66,8 +63,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
-            playerMotor.freeSpeed.runningSpeed = 0.5f;
-            Attack();
+            //playerMotor.freeSpeed.runningSpeed = 0.5f;
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
@@ -105,19 +101,6 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Coin") TakeCoin?.Invoke(1,other.gameObject);
-    }
-
-    public void Attack()
-    {
-        attackZone1.SetActive(true);
-        //attackZone2.SetActive(true);
-        Invoke("AttackOff", 0.5f);
-    }
-
-    public void AttackOff()
-    {
-        attackZone1.SetActive(false);
-        attackZone2.SetActive(false);
     }
 
     public void TakeDamage(int num)
