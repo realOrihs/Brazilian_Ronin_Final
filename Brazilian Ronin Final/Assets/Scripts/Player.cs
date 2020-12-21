@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     public delegate void OnCoinTake(int num, GameObject coin);
     public static event OnCoinTake TakeCoin;
 
+    public delegate void PushLever();
+    public static event PushLever Push;
+
     private Rigidbody playerBody;
 
     private vThirdPersonMotor playerMotor;
@@ -78,6 +81,10 @@ public class Player : MonoBehaviour
             playerMotor.freeSpeed.rotationSpeed = 3;
             playerBody.drag = 4;
             playerBody.useGravity = false;
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Push?.Invoke();
         }
         if (IsGlide && (Input.GetKeyUp(KeyCode.Mouse1) || playerMotor.groundDistance < 0.5f))
         {
