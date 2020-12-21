@@ -12,8 +12,8 @@ public class Enemy : MonoBehaviour
     public float distance;
     private NavMeshAgent nav;
     public float triggerRadius = 10;
-    private int healthPoints = 6;
-    private static Animator anim;
+    public int healthPoints;
+    private Animator anim;
     //public AudioSource soundHit;
     //public AudioSource deadHit;
     //public AudioSource firstPhrase;
@@ -28,11 +28,14 @@ public class Enemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
         player = playerBody.GetComponent<Player>();
-
+        healthPoints = 6;
         PlayerAttack.MakeDamage += TakeDamage;
     }
 
-    
+    public Enemy GetInstance()
+    {
+        return this;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -87,12 +90,15 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    private void TakeDamage(int num)
+    private void TakeDamage(int num,Enemy enemy)
     {
-        //soundHit.Play();
-        //Debug.Log("Get Damage");
-        healthPoints -= num;
-        anim.SetTrigger("Hit");
+        if (this == enemy)
+        {
+            //soundHit.Play();
+            //Debug.Log("Get Damage");
+            healthPoints -= num;
+            anim.SetTrigger("Hit");
+        }
     }
 
     private void Attack()

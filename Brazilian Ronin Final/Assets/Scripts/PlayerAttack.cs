@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     public GameObject punchPartical;
     public CameraShake cameraShake;
 
-    public delegate void OnDamageMake(int num);
+    public delegate void OnDamageMake(int num,Enemy enemy);
     public static event OnDamageMake MakeDamage;
     private bool isCollided;
     //public AudioSource audioHit;
@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
             //audioHit.pitch = Random.Range(0.8f, 1.2f);
             //audioHit.Play();
             // audioGetDamage.Play();
-            MakeDamage?.Invoke(1);
+            MakeDamage?.Invoke(1,other.gameObject.GetComponent<Enemy>());
             Blinking();
             cameraShake.Shake();
         }

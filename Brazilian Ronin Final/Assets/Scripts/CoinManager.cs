@@ -26,8 +26,8 @@ public class CoinManager : MonoBehaviour
         sound.Play();
         if (Coin != null)
         {
-            MeshRenderer mesh = Coin.GetComponent<MeshRenderer>();
-            mesh.enabled = false;
+            Coin.GetComponent<MeshRenderer>().enabled = false;
+            Coin.GetComponent<SphereCollider>().enabled = false;
             Destroy(Coin,0.5f);
         }
         

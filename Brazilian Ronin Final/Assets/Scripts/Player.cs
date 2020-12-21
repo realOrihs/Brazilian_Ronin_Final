@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
             playerAnim.SetBool("Attack", false);
             playerMotor.freeSpeed.runningSpeed = 3;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 2.5f)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 3.5f)
         {
             IsGlide = true;
             playerAnim.SetBool("IsGlide", IsGlide);
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
         {
             vg.color.value = new Color(0.86f,0.14f,0.14f);
             vg.intensity.value = 0.5f;
-            Invoke("ChangeVignetteOff",  1.5f);
+            Invoke("ChangeVignetteOff",  1f);
         }
     }
 
