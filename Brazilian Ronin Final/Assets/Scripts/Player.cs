@@ -56,28 +56,22 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             playerAnim.SetBool("Roll", true);
-            //rig.AddForce(moveDirection * 10, ForceMode.VelocityChange);
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             playerAnim.SetBool("Roll", false);
-            //rig.AddForce(moveDirection * 10, ForceMode.VelocityChange);
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
-
-            //playerMotor.freeSpeed.runningSpeed = 0.5f;
-
             playerMotor.freeSpeed.runningSpeed = 0.5f;
-
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", false);
             playerMotor.freeSpeed.runningSpeed = 3;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 3.5f)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 2f)
         {
             IsGlide = true;
             playerAnim.SetBool("IsGlide", IsGlide);
@@ -89,7 +83,7 @@ public class Player : MonoBehaviour
         {
             Push?.Invoke();
         }
-        if (IsGlide && (Input.GetKeyUp(KeyCode.Mouse1) || playerMotor.groundDistance < 0.5f))
+        if (IsGlide && (Input.GetKeyUp(KeyCode.Mouse1) || playerMotor.groundDistance < 1.5f))
         {
             IsGlide = false;
             playerMotor.freeSpeed.rotationSpeed = 15;
@@ -117,6 +111,7 @@ public class Player : MonoBehaviour
 
     {
         playerAnim.SetTrigger("IsHit");
+        ChangeVignette();
     }
 
     private void ChangeVignette()
@@ -126,7 +121,7 @@ public class Player : MonoBehaviour
         {
             vg.color.value = new Color(0.86f,0.14f,0.14f);
             vg.intensity.value = 0.5f;
-            Invoke("ChangeVignetteOff",  1f);
+            Invoke("ChangeVignetteOff", 0.5f);
         }
     }
 
