@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
     private void TakeDamage(int num)
     {
         //soundHit.Play();
-        Debug.Log("Get Damage");
+        //Debug.Log("Get Damage");
         healthPoints -= num;
         anim.SetTrigger("Hit");
     }

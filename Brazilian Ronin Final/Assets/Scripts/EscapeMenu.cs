@@ -46,7 +46,7 @@ public class EscapeMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-           // Continue();
+            Continue();
         }
     }
 }
