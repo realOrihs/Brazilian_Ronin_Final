@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private static bool IsGlide = false;
     private static bool isCollided;
     private static Animator playerAnim;
-    public Volume volume;
+    public static Volume volume;
     public GameObject Menu;
     public GameObject GameOverMenu;
     //public AudioSource soundGetDamage;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     public delegate void OnCoinTake(int num, GameObject coin);
     public static event OnCoinTake TakeCoin;
-
+    public static Player player;
     public delegate void PushLever();
     public static event PushLever Push;
 
@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
         playerController = GetComponent<vThirdPersonController>();           
         playerAnim = GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody>();
+        volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
+        player = this;
         
         EnemyAttack.MakeDamage += TakeDamage;
     }
@@ -65,11 +67,13 @@ public class Player : MonoBehaviour
         {
             playerAnim.SetBool("Attack", true);
             playerMotor.freeSpeed.runningSpeed = 0.5f;
+            playerMotor.freeSpeed.rotationSpeed = 5;
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", false);
             playerMotor.freeSpeed.runningSpeed = 3;
+            playerMotor.freeSpeed.rotationSpeed = 15;
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 2f)
         {
@@ -111,10 +115,10 @@ public class Player : MonoBehaviour
 
     {
         playerAnim.SetTrigger("IsHit");
-        ChangeVignette();
+        GetInstance().ChangeVignette();
     }
 
-    private void ChangeVignette()
+    public void ChangeVignette()
     {
         Vignette vg;
         if (volume.profile.TryGet(out vg))
@@ -126,7 +130,6 @@ public class Player : MonoBehaviour
     }
 
     private void ChangeVignetteOff()
-
     {
         Vignette vg;
         if (volume.profile.TryGet(out vg))
@@ -142,7 +145,7 @@ public class Player : MonoBehaviour
         DepthOfField tmp;
         if (volume.profile.TryGet(out tmp))
         {
-            tmp.focusDistance.value = 1f;
+            tmp.active = true;
         }
         Time.timeScale = 0;
         Menu.SetActive(true);
@@ -154,7 +157,7 @@ public class Player : MonoBehaviour
         DepthOfField tmp;
         if (volume.profile.TryGet(out tmp))
         {
-            tmp.focusDistance.value = 1f;
+            tmp.active = true;
         }
         Vignette vg;
         if (volume.profile.TryGet(out vg))
@@ -164,7 +167,11 @@ public class Player : MonoBehaviour
         }
         Time.timeScale = 0;
         GameOverMenu.SetActive(true);
-        
+    }
+
+    public static Player GetInstance()
+    {
+        return player;
     }
 }
 

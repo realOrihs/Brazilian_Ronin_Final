@@ -3089,12 +3089,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3e039d012c66ed84db0a6770ab4eeb1b, type: 2}
+      objectReference: {fileID: 2100000, guid: 9350ff1181c429047b78a7603089103b, type: 2}
     - target: {fileID: 116629595037620432, guid: 3e96a7e8c34eac948bc56e4ef56a47d4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3e039d012c66ed84db0a6770ab4eeb1b, type: 2}
+      objectReference: {fileID: 2100000, guid: ab666a6c57704e144a11b406721612d5, type: 2}
     - target: {fileID: 919132149155446097, guid: 3e96a7e8c34eac948bc56e4ef56a47d4,
         type: 3}
       propertyPath: m_Name
@@ -3109,7 +3109,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3e039d012c66ed84db0a6770ab4eeb1b, type: 2}
+      objectReference: {fileID: 2100000, guid: d73f1c6480ad34344bac4cca65693fc4, type: 2}
     - target: {fileID: 5866666021909216657, guid: 3e96a7e8c34eac948bc56e4ef56a47d4,
         type: 3}
       propertyPath: m_Controller

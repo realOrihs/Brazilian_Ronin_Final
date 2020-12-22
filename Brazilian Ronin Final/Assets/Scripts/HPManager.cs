@@ -18,7 +18,7 @@ public class HPManager : MonoBehaviour
         HPCount = HPmax;
         EnemyAttack.MakeDamage += TakeDamage;
      }
-    private void TakeDamage(int num)
+    public static void TakeDamage(int num)
     {
         HPCount -= num;
         if (HPCount < 0) HPCount = 0;

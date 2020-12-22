@@ -15,7 +15,7 @@ public class EscapeMenu : MonoBehaviour
         DepthOfField tmp;
         if (volume.profile.TryGet(out tmp))
         {
-            tmp.focusDistance.value = 3f;
+            tmp.active = false;
         }
         Menu.SetActive(false);
         Time.timeScale = 1;
@@ -46,7 +46,8 @@ public class EscapeMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Continue();
+            //Continue();
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

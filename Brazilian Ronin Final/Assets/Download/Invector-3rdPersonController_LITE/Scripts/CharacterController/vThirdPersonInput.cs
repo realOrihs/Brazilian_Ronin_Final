@@ -138,7 +138,8 @@ namespace Invector.vCharacterController
         /// <returns></returns>
         protected virtual bool JumpConditions()
         {
-            return cc.jumpCount < 30 && cc.GroundAngle() < cc.slopeLimit && !cc.isJumping && !cc.stopMove;
+            return cc.jumpCount < 1 && cc.GroundAngle() < cc.slopeLimit;
+            // && !cc.isJumping && !cc.stopMove
         }
 
         /// <summary>
@@ -147,7 +148,10 @@ namespace Invector.vCharacterController
         protected virtual void JumpInput()
         {
             if (Input.GetKeyDown(jumpInput) && JumpConditions())
+            {
                 cc.Jump();
+                cc.jumpCount++;
+            }
         }
 
         #endregion       

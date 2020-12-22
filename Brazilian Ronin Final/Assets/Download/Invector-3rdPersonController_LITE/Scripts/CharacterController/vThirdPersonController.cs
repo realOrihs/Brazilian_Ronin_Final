@@ -117,7 +117,6 @@ namespace Invector.vCharacterController
             // trigger jump behaviour
             jumpCounter = jumpTimer;
             isJumping = true;
-            jumpCount++;
             // trigger jump animations
             if (input.sqrMagnitude < 0.1f)
                 animator.CrossFadeInFixedTime("Jump", 0.1f);

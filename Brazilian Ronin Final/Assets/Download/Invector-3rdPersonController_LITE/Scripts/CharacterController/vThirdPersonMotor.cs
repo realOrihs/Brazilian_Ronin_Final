@@ -244,7 +244,6 @@ namespace Invector.vCharacterController
             {
                 isJumping = false;
             }
-            jumpCount++;
             // apply extra force to the jump height   
             var vel = _rigidbody.velocity;
             vel.y = jumpHeight;
