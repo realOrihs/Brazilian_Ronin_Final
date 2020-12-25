@@ -294,7 +294,10 @@ namespace Invector.vCharacterController
 
             if (groundDistance <= groundMinDistance)
             {
-                jumpCount = 0;
+                if (!isJumping) 
+                { 
+                    jumpCount = 0;
+                }
                 isGrounded = true;
                 if (!isJumping && groundDistance > 0.05f)
                     _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);

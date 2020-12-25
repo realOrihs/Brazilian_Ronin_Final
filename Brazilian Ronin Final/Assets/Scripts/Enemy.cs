@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
+                    anim.SetBool("Attack", false);
                     nav.enabled = true;
                     nav.SetDestination(player.transform.position);
                     anim.SetTrigger("Run");
@@ -104,7 +105,7 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         //anim.SetTrigger("Idle");
-        anim.SetTrigger("Attack");
+        anim.SetBool("Attack", true);
     }
 
     //void PlauerAnswer()

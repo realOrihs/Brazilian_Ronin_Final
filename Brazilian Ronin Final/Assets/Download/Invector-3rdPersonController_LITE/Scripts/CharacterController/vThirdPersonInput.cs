@@ -46,7 +46,7 @@ namespace Invector.vCharacterController
         public virtual void OnAnimatorMove()
         {
             cc.ControlAnimatorRootMotion(); // handle root motion animations 
-        }
+         }
 
         #region Basic Locomotion Inputs
 
@@ -138,7 +138,7 @@ namespace Invector.vCharacterController
         /// <returns></returns>
         protected virtual bool JumpConditions()
         {
-            return cc.jumpCount < 1 && cc.GroundAngle() < cc.slopeLimit;
+            return cc.jumpCount < 2 && cc.GroundAngle() < cc.slopeLimit;
             // && !cc.isJumping && !cc.stopMove
         }
 
