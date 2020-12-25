@@ -7,6 +7,21 @@ public class CoinManager : MonoBehaviour
 {
     public TextMeshProUGUI CoinsText;
     public int coinsNum { get; private set; }
+    public static CoinManager singleton;
+
+    private void Awake()
+    {
+        if (!singleton)
+        {
+            singleton = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         Player.TakeCoin += RaiseNum;
