@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
         player = Player.singleton;
-        healthPoints = 150;
+        healthPoints = 6;
         triggerRadius = 13;
         PlayerAttack.MakeDamage += TakeDamage;
     }
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
                     nav.SetDestination(player.transform.position);
                     anim.SetTrigger("Run");
                     if(SoundManager.currentClip != SoundManager.singleton.battleMusic)
-                    SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.15f, true);
+                    SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.1f, true);
                 }
             }
         }
@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour
     {
         //anim.SetTrigger("Idle");
         anim.SetBool("Attack", true);
+        //SoundManager.singleton.soundAxe.Play();
     }
 
     

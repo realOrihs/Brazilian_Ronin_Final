@@ -10,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     public delegate void OnDamageMake(int num,Enemy enemy);
     public static event OnDamageMake MakeDamage;
     private bool isCollided;
+    
     //public AudioSource audioHit;
     //public AudioSource audioGetDamage;
 
@@ -24,13 +25,13 @@ public class PlayerAttack : MonoBehaviour
         isCollided = true;
         if (other.tag == "Enemy")
         {
-            //StartCoroutine(Blink());
-            //audioHit.pitch = Random.Range(0.8f, 1.2f);
-            //audioHit.Play();
-            // audioGetDamage.Play();
             MakeDamage?.Invoke(1,other.gameObject.GetComponent<Enemy>());
             Blinking();
             cameraShake.Shake();
+            SoundManager.singleton.soundHitLeft.pitch = Random.Range(0.85f, 1.15f);
+            SoundManager.singleton.soundHitRight.pitch = Random.Range(0.85f, 1.15f);
+            SoundManager.singleton.soundHitLeft.Play();
+            SoundManager.singleton.soundHitRight.Play();
         }
     }
 

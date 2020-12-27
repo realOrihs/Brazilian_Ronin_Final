@@ -41,7 +41,7 @@ public class HPManager : MonoBehaviour
 
     private void Start()
     {
-        //EnemyAttack.MakeDamage += TakeDamage;
+        EnemyAttack.MakeDamage += TakeDamage;
     }
     
     public static void TakeDamage(int num)
@@ -52,6 +52,7 @@ public class HPManager : MonoBehaviour
             if (HPCount < 0) HPCount = 0;
             images.ToArray()[HPCount].enabled = false;
         }
+        SoundManager.singleton.soundDamage.Play();
     }
 
     private void SortImage()

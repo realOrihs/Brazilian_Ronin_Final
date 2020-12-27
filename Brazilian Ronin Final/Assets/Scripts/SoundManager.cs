@@ -7,6 +7,10 @@ public class SoundManager : MonoBehaviour
     public AudioSource mainSource { get; private set; }
     public AudioClip battleMusic;
     public static SoundManager singleton;
+    public AudioSource soundHitRight { get; private set; }
+    public AudioSource soundHitLeft { get; private set; }
+    public AudioSource soundDamage { get; private set; }
+    public AudioSource soundAxe { get; private set; }
     public static AudioClip currentClip => singleton.mainSource.clip;
     private float targetVolume;
     private bool smoothOff = false;
@@ -24,8 +28,14 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        CampScript.OnClearCamp -= OffBattleMusic;
         CampScript.OnClearCamp += OffBattleMusic;
+        
         singleton.mainSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        singleton.soundHitRight = GameObject.Find("RightHandAttack").GetComponent<AudioSource>();
+        singleton.soundHitLeft = GameObject.Find("LeftHandAttack").GetComponent<AudioSource>();
+        singleton.soundDamage = GameObject.Find("mixamorig:Neck").GetComponent<AudioSource>();
+        //singleton.soundAxe = GameObject.Find("attackZone").GetComponent<AudioSource>();
     }
 
    public static void PlayMusic(AudioClip clip, float volume, bool loop)
@@ -40,6 +50,7 @@ public class SoundManager : MonoBehaviour
 
     private void OffBattleMusic()
     {
+
         if(currentClip == battleMusic)
         {
             smoothOff = true;

@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public GameObject Menu;
     public GameObject GameOverMenu;
     public AudioSource soundGetDamage;
-    //public AudioSource soundHit;
+    
     //public AudioSource soundDead;
     //public AudioSource answerPhrase;
     //public bool isAnswer = true;
@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     {
         isAlive = true;
         singleton = this;
-       
     }
     void Start()
     {
