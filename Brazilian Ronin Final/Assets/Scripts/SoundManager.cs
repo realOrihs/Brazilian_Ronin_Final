@@ -11,10 +11,12 @@ public class SoundManager : MonoBehaviour
     public AudioSource soundHitLeft { get; private set; }
     public AudioSource soundDamage { get; private set; }
     public AudioSource soundAxe { get; private set; }
+    public AudioSource soundRun { get; private set; }
+    public AudioSource soundRoll { get; private set; }
     public static AudioClip currentClip => singleton.mainSource.clip;
     private float targetVolume;
-    private bool smoothOff = false;
-    private bool smoothOn = false;
+    public bool smoothOff = false;
+    public bool smoothOn = false;
 
 
     private void Awake()
@@ -35,6 +37,8 @@ public class SoundManager : MonoBehaviour
         singleton.soundHitRight = GameObject.Find("RightHandAttack").GetComponent<AudioSource>();
         singleton.soundHitLeft = GameObject.Find("LeftHandAttack").GetComponent<AudioSource>();
         singleton.soundDamage = GameObject.Find("mixamorig:Neck").GetComponent<AudioSource>();
+        singleton.soundRun = GameObject.Find("Armature.001").GetComponent<AudioSource>();
+        singleton.soundRoll = GameObject.Find("mixamorig:Spine").GetComponent<AudioSource>();
         //singleton.soundAxe = GameObject.Find("attackZone").GetComponent<AudioSource>();
     }
 

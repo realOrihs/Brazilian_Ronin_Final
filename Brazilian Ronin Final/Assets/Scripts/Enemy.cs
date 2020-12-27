@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
                     nav.SetDestination(player.transform.position);
                     anim.SetTrigger("Run");
                     if(SoundManager.currentClip != SoundManager.singleton.battleMusic)
-                    SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.1f, true);
+                    SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.05f, true);
                 }
             }
         }

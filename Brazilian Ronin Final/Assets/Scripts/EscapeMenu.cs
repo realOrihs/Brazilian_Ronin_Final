@@ -38,6 +38,11 @@ public class EscapeMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Main menu");
+        DepthOfField dof;
+        if (volume.profile.TryGet(out dof))
+        {
+            dof.active = false;
+        }
     }
 
     public void Exit()

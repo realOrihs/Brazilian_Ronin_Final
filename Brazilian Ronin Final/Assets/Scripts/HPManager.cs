@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class HPManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class HPManager : MonoBehaviour
         {
             img.enabled = true;
         }
-       
+        singleton.gameObject.GetComponent<Canvas>().enabled = true;
         singleton.gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("UI camera").GetComponent<Camera>();
     }
 

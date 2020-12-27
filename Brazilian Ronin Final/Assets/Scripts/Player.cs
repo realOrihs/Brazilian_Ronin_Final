@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 {
     public bool isAlive { get; private set; }
     private static bool IsGlide = false;
+    private static bool isRoll = false;
     private static bool isCollided;
     private static Animator playerAnim;
     public Volume volume { get; private set; }
@@ -48,6 +49,24 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(playerMotor.inputMagnitude > 0.7 && !SoundManager.singleton.soundRun.isPlaying)
+        {
+            SoundManager.singleton.soundRun.Play();
+        }
+        if(playerMotor.inputMagnitude < 0.7 || isRoll || !playerMotor.isGrounded || playerAnim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        {
+            SoundManager.singleton.soundRun.Stop();
+        }
+        if (isRoll && !SoundManager.singleton.soundRoll.isPlaying )
+        {
+            SoundManager.singleton.soundRoll.pitch = Random.Range(1f, 1.2f);
+            SoundManager.singleton.soundRoll.PlayDelayed(0.12f);
+        }
+        if (!playerMotor.isGrounded)
+        {
+            isRoll = false;
+            SoundManager.singleton.soundRoll.Stop();
+        }
         //MoveUp();
         isCollided = false;
         //Debug.Log(playerMotor.groundDistance);
@@ -127,6 +146,8 @@ public class Player : MonoBehaviour
         }
         Time.timeScale = 0;
         Menu.SetActive(true);
+        isRoll = false;
+        SoundManager.singleton.soundRun.Stop();
     }
 
     private void GameOver()
@@ -161,6 +182,12 @@ public class Player : MonoBehaviour
     private void MoveUp()
     {
         singleton.GetComponent<Rigidbody>().MovePosition(transform.position + new Vector3(0, 1, 0).normalized * 10f * Time.deltaTime);
+    }
+
+    public void SetRoll(int state)
+    {
+        if (state == 1) isRoll = true;
+        else isRoll = false;
     }
 }
 

@@ -11,6 +11,7 @@ public class CampScript : MonoBehaviour
     void Start()
     {
         Enemy.OnDead += OnEnemyDead;
+        OnClearCamp += OpenGates;
         enemiesGO = GameObject.FindGameObjectsWithTag("Enemy");
         foreach(var enemy in enemiesGO)
         {
@@ -21,7 +22,7 @@ public class CampScript : MonoBehaviour
         }
     }
     
-    void OnEnemyDead(Enemy enemy)
+    private void OnEnemyDead(Enemy enemy)
    {
         if (enemies.Contains(enemy))
         {
@@ -34,8 +35,14 @@ public class CampScript : MonoBehaviour
         }
     }
 
+    private void OpenGates()
+    {
+        GameObject.Find("Gates").GetComponent<Animation>().Play();
+    }
+
     public void OnDestroy()
     {
         Enemy.OnDead -= OnEnemyDead;
+        OnClearCamp -= OpenGates;
     }
 }
