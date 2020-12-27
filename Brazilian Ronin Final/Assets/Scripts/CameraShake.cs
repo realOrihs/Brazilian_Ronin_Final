@@ -22,7 +22,7 @@ public class CameraShake : MonoBehaviour
     }
     public IEnumerator Shaking()
     {
-        transform.Rotate(new Vector3(0, 0, 90) * Time.deltaTime);
+        transform.Rotate(new Vector3(0, 0, 90) * Time.deltaTime * 1.5f);
         yield return new WaitForSeconds(10);
     }
 }

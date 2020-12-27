@@ -14,6 +14,16 @@ public class GameOverMenu : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Main Scene");
         Cursor.lockState = CursorLockMode.Locked;
+        Vignette vg;
+        if (volume.profile.TryGet(out vg))
+        {
+            vg.active = false;
+        }
+        DepthOfField dof;
+        if (volume.profile.TryGet(out dof))
+        {
+            dof.active = false;
+        }
     }
 
     public void ToMainMenu()
@@ -26,6 +36,11 @@ public class GameOverMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         Application.Quit();
+    }
+
+    private void Start()
+    {
+        volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
     }
 }
 

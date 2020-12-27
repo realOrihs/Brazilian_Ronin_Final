@@ -8,16 +8,14 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    public Rigidbody rig;
-
-    public bool isAlive = true;
+    public bool isAlive { get; private set; }
     private static bool IsGlide = false;
     private static bool isCollided;
     private static Animator playerAnim;
-    public static Volume volume;
+    public Volume volume { get; private set; }
     public GameObject Menu;
     public GameObject GameOverMenu;
-    //public AudioSource soundGetDamage;
+    public AudioSource soundGetDamage;
     //public AudioSource soundHit;
     //public AudioSource soundDead;
     //public AudioSource answerPhrase;
@@ -25,16 +23,20 @@ public class Player : MonoBehaviour
 
     public delegate void OnCoinTake(int num, GameObject coin);
     public static event OnCoinTake TakeCoin;
-    public static Player player;
+    public static Player singleton;
     public delegate void PushLever();
     public static event PushLever Push;
 
     private static Rigidbody playerBody;
-
     private static vThirdPersonMotor playerMotor;
-
     private static vThirdPersonController playerController;
 
+    private void Awake()
+    {
+        isAlive = true;
+        singleton = this;
+       
+    }
     void Start()
     {
         playerMotor = GetComponent<vThirdPersonMotor>();
@@ -42,13 +44,12 @@ public class Player : MonoBehaviour
         playerAnim = GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody>();
         volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
-        player = this;
-        
         EnemyAttack.MakeDamage += TakeDamage;
     }
 
     void Update()
     {
+        //MoveUp();
         isCollided = false;
         //Debug.Log(playerMotor.groundDistance);
         if (Input.GetKeyDown(KeyCode.Escape) && isAlive)
@@ -67,19 +68,19 @@ public class Player : MonoBehaviour
         {
             playerAnim.SetBool("Attack", true);
             playerMotor.freeSpeed.runningSpeed = 0.5f;
-            playerMotor.freeSpeed.rotationSpeed = 5;
+            SetRotation(5);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", false);
             playerMotor.freeSpeed.runningSpeed = 3;
-            playerMotor.freeSpeed.rotationSpeed = 15;
+            SetRotation(15);
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerMotor.groundDistance > 2f)
         {
             IsGlide = true;
             playerAnim.SetBool("IsGlide", IsGlide);
-            playerMotor.freeSpeed.rotationSpeed = 3;
+            SetRotation(3);
             playerBody.drag = 4;
             playerBody.useGravity = false;
         }
@@ -87,11 +88,11 @@ public class Player : MonoBehaviour
         {
             Push?.Invoke();
         }
-        if (IsGlide && (Input.GetKeyUp(KeyCode.Mouse1) || playerMotor.groundDistance < 1.5f))
+        if (IsGlide && (Input.GetKeyUp(KeyCode.Mouse1) || playerMotor.groundDistance < 2f))
         {
             IsGlide = false;
-            playerMotor.freeSpeed.rotationSpeed = 15;
             playerAnim.SetBool("IsGlide", IsGlide);
+            playerMotor.freeSpeed.rotationSpeed = 15;
             playerBody.drag = 0;
             playerBody.useGravity = true;
         }
@@ -102,7 +103,6 @@ public class Player : MonoBehaviour
             isAlive = false;
             Invoke("GameOver",1.5f);
         }
-            
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -112,31 +112,10 @@ public class Player : MonoBehaviour
     }
 
     public void TakeDamage(int num)
-
     {
         playerAnim.SetTrigger("IsHit");
-        GetInstance().ChangeVignette();
-    }
-
-    public void ChangeVignette()
-    {
-        Vignette vg;
-        if (volume.profile.TryGet(out vg))
-        {
-            vg.color.value = new Color(0.86f,0.14f,0.14f);
-            vg.intensity.value = 0.5f;
-            Invoke("ChangeVignetteOff", 0.5f);
-        }
-    }
-
-    private void ChangeVignetteOff()
-    {
-        Vignette vg;
-        if (volume.profile.TryGet(out vg))
-        {
-            vg.color.value = new Color(0, 0, 0);
-            vg.intensity.value = 0.25f;
-        }
+        VolumeManager.singleton.ChangeVignette();
+        VolumeManager.singleton.Invoke("ChangeVignetteOff", 0.5f);
     }
 
     private void PauseGame()
@@ -154,14 +133,15 @@ public class Player : MonoBehaviour
     private void GameOver()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        DepthOfField tmp;
-        if (volume.profile.TryGet(out tmp))
+        DepthOfField dof;
+        if (volume.profile.TryGet(out dof))
         {
-            tmp.active = true;
+            dof.active = true;
         }
         Vignette vg;
         if (volume.profile.TryGet(out vg))
         {
+            vg.active = true;
             vg.color.value = new Color(0.86f, 0.14f, 0.14f);
             vg.intensity.value = 0.5f;
         }
@@ -169,9 +149,19 @@ public class Player : MonoBehaviour
         GameOverMenu.SetActive(true);
     }
 
-    public static Player GetInstance()
+    public void SetRotation(float value)
     {
-        return player;
+        playerMotor.freeSpeed.rotationSpeed = value;
+    }
+
+    public void OnDestroy()
+    {
+        EnemyAttack.MakeDamage -= TakeDamage;
+    }
+
+    private void MoveUp()
+    {
+        singleton.GetComponent<Rigidbody>().MovePosition(transform.position + new Vector3(0, 1, 0).normalized * 10f * Time.deltaTime);
     }
 }
 

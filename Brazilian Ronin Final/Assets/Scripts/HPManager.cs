@@ -8,8 +8,9 @@ public class HPManager : MonoBehaviour
 {
     public static int HPCount { get; private set; }
     public static int HPmax = 3;
-    public static GameObject[] images;
-    public static HPManager singleton { get; private set; }
+    public static GameObject[] imagesGO;
+    public static IEnumerable<Image> images;
+    public static HPManager singleton;
 
     private void Awake()
     {
@@ -22,18 +23,25 @@ public class HPManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (imagesGO == null)
+        {
+            imagesGO = GameObject.FindGameObjectsWithTag("HPImage");
+        }
+
+        HPCount = HPmax;
+        SortImage();
+        foreach (var img in images)
+        {
+            img.enabled = true;
+        }
+       
+        singleton.gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("UI camera").GetComponent<Camera>();
     }
 
     private void Start()
     {
-        images = GameObject.FindGameObjectsWithTag("HPImage");
-        HPCount = HPmax;
-        foreach(var img in images)
-        {
-            img.GetComponent<Image>().enabled = true;
-        }
-        SortImage();
-        EnemyAttack.MakeDamage += TakeDamage;
+        //EnemyAttack.MakeDamage += TakeDamage;
     }
     
     public static void TakeDamage(int num)
@@ -42,12 +50,17 @@ public class HPManager : MonoBehaviour
         {
             HPCount--;
             if (HPCount < 0) HPCount = 0;
-            images[HPCount].GetComponent<Image>().enabled = false;
+            images.ToArray()[HPCount].enabled = false;
         }
     }
 
-    private static void SortImage()
+    private void SortImage()
     {
-        images.OrderBy(img => -img.transform.position.x);
+        images = imagesGO.OrderBy(img => img.transform.position.x).Select(img => img.GetComponent<Image>());
+    }
+
+    private void OnDestroy()
+    {
+        //EnemyAttack.MakeDamage -= TakeDamage;
     }
 }

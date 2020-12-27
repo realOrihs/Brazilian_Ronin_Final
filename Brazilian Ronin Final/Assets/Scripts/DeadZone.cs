@@ -9,7 +9,7 @@ public class DeadZone : MonoBehaviour
         if (other.gameObject.GetComponent<Player>())
         {
             HPManager.TakeDamage(HPManager.HPmax);
-            Player.GetInstance().ChangeVignette();
+            VolumeManager.singleton.ChangeVignette();
         }
     }
 }

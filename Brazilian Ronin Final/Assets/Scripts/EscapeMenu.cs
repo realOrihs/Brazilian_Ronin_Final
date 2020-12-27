@@ -8,14 +8,14 @@ using UnityEngine.SceneManagement;
 public class EscapeMenu : MonoBehaviour
 {
     public GameObject Menu;
-    public Volume volume;
-    // Start is called before the first frame update
+    private Volume volume;
+    
     public void Continue()
     {
-        DepthOfField tmp;
-        if (volume.profile.TryGet(out tmp))
+        DepthOfField dof;
+        if (volume.profile.TryGet(out dof))
         {
-            tmp.active = false;
+            dof.active = false;
         }
         Menu.SetActive(false);
         Time.timeScale = 1;
@@ -26,6 +26,11 @@ public class EscapeMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Main Scene");
+        DepthOfField dof;
+        if (volume.profile.TryGet(out dof))
+        {
+            dof.active = false;
+        }
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -39,6 +44,11 @@ public class EscapeMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         Application.Quit();
+    }
+
+    private void Start()
+    {
+        volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
     }
 
     // Update is called once per frame

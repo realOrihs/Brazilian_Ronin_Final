@@ -6,29 +6,28 @@ using Invector.vCharacterController;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject playerBody;
-    public Player player;
-    public GameObject attackZone;
-    public float distance;
+    private Player player;
+    private float distance;
     private NavMeshAgent nav;
-    public float triggerRadius = 10;
-    public int healthPoints;
+    private float triggerRadius;
+    private int healthPoints;
     private Animator anim;
     //public AudioSource soundHit;
     //public AudioSource deadHit;
     //public AudioSource firstPhrase;
-    public bool isFirstPrase = true;
+    private bool isFirstPrase = true;
+    public delegate void OnDeadEv(Enemy enemy);
+    public static event OnDeadEv OnDead;
 
-    
-
-    public bool isDead = false;
+    private bool isDead = false;
     //public bool isHit = false;
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
-        player = playerBody.GetComponent<Player>();
-        healthPoints = 6;
+        player = Player.singleton;
+        healthPoints = 150;
+        triggerRadius = 13;
         PlayerAttack.MakeDamage += TakeDamage;
     }
 
@@ -48,6 +47,7 @@ public class Enemy : MonoBehaviour
                 isDead = true;
                 anim.SetBool("IsDead", isDead);
                 gameObject.GetComponent<CharacterController>().enabled = false;
+                OnDead?.Invoke(this);
                 //deadHit.Play();
             }
 
@@ -79,6 +79,8 @@ public class Enemy : MonoBehaviour
                     nav.enabled = true;
                     nav.SetDestination(player.transform.position);
                     anim.SetTrigger("Run");
+                    if(SoundManager.currentClip != SoundManager.singleton.battleMusic)
+                    SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.15f, true);
                 }
             }
         }
@@ -108,16 +110,17 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Attack", true);
     }
 
+    
     //void PlauerAnswer()
     //{
     //    if(player.isAnswer)
     //        player.answerPhrase.Play();
     //}
 
-   // private void OnDrawGizmos()
-   //{
-   //     Gizmos.color = Color.red;
-   //     Gizmos.DrawWireSphere(transform.position, triggerRadius);
-   // }
+    // private void OnDrawGizmos()
+    //{
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, triggerRadius);
+    // }
 }
 

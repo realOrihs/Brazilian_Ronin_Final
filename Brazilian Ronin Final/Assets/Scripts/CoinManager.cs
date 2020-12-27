@@ -20,6 +20,8 @@ public class CoinManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        singleton.CoinsText = GameObject.Find("CoinsText").GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
