@@ -58,6 +58,7 @@ public class HPManager : MonoBehaviour
     private void Start()
     {
         EnemyAttack.MakeDamage += TakeDamage;
+        Player.MakeFallDamage += TakeDamage;
     }
     
     public static void TakeDamage(int num)

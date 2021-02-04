@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public bool isGlide { get; private set; }
     public bool isRoll { get; private set; }
     public bool isCollided { get; private set; }
+    public bool isGetFallDamage { get; private set; }
     public static Animator playerAnim { get; private set; }
     public Volume volume { get; private set; }
     public GameObject Menu;
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     public static Player singleton;
     public delegate void PushLever();
     public static event PushLever Push;
+    public delegate void OnFallDamageMake(int num);
+    public static event OnFallDamageMake MakeFallDamage;
 
     private static Rigidbody playerBody;
     private static vThirdPersonMotor playerMotor;
@@ -41,6 +44,7 @@ public class Player : MonoBehaviour
         playerBody = GetComponent<Rigidbody>();
         volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
         EnemyAttack.MakeDamage += TakeDamage;
+        Player.MakeFallDamage += TakeDamage;
     }
 
     void Update()
@@ -125,6 +129,13 @@ public class Player : MonoBehaviour
             Invoke("GameOver",1.5f);
             isDead?.Invoke();
         }
+        //if (!isGetFallDamage && playerMotor.groundDistance > playerMotor.distanceToDamage)
+        //    isGetFallDamage = true;
+        //if (isGetFallDamage && playerMotor.isGrounded)
+        //{
+        //    MakeFallDamage.Invoke(1);
+        //    isGetFallDamage = false;
+        //}
     }
     private void OnTriggerEnter(Collider other)
     {
