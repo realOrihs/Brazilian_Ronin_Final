@@ -76,8 +76,11 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     anim.SetBool("Attack", false);
-                    nav.enabled = true;
-                    nav.SetDestination(player.transform.position);
+                    if (nav)
+                    {
+                        nav.enabled = true;
+                        nav.SetDestination(player.transform.position);
+                    }
                     anim.SetTrigger("Run");
                     if(SoundManager.currentClip != SoundManager.singleton.battleMusic)
                     SoundManager.PlayMusic(SoundManager.singleton.battleMusic, 0.03f, true);
