@@ -52,6 +52,8 @@ namespace Invector.vCharacterController
         [Tooltip("Distance to became not grounded")]
         public float groundMinDistance = 0.25f;
         public float groundMaxDistance = 0.5f;
+        [Range(1, 100)] public float distanceToDamage = 10f;
+        [Range(1, 20)] public float stepToMoreDamage = 5f;
         [Tooltip("Max angle to walk")]
         [Range(30, 80)] public float slopeLimit = 75f;
         #endregion
@@ -344,7 +346,7 @@ namespace Invector.vCharacterController
             {
                 // radius of the SphereCast
                 float radius = _capsuleCollider.radius * 0.9f;
-                var dist = 10f;
+                var dist = 100f;
                 // ray for RayCast
                 Ray ray2 = new Ray(transform.position + new Vector3(0, colliderHeight / 2, 0), Vector3.down);
                 // raycast for check the ground distance
