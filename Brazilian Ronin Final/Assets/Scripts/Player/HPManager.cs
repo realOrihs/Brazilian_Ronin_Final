@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class HPManager : MonoBehaviour
 {
-    public static int HPCount { get; private set; }
-    public static int HPmax = 5;
+    public int HPCount { get; private set; }
+    public int HPmax = 5;
     public static GameObject[] imagesGO;
     public static List<Image> images;
     public static HPManager singleton;
@@ -66,9 +66,9 @@ public class HPManager : MonoBehaviour
         {
             for (int i = num; i > 0; i--)
             {
-                HPCount--;
-                if (HPCount < 0) HPCount = 0;
-                images.ToArray()[HPCount].enabled = false;
+                singleton.HPCount--;
+                if (singleton.HPCount < 0) singleton.HPCount = 0;
+                images.ToArray()[singleton.HPCount].enabled = false;
             }
 
             VolumeManager.singleton.ChangeVignette(new Color(0.86f, 0.14f, 0.14f), 0.6f);

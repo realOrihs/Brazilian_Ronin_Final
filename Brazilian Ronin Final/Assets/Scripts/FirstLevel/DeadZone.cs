@@ -8,7 +8,7 @@ public class DeadZone : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Player>())
         {
-            HPManager.TakeDamage(HPManager.HPmax);
+            HPManager.TakeDamage(HPManager.singleton.HPmax);
         }
     }
 }

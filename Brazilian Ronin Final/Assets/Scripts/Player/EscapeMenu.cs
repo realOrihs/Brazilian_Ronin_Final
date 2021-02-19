@@ -11,7 +11,7 @@ public class EscapeMenu : MonoBehaviour
     
     public void Continue()
     {
-        VolumeManager.dof.active = false;
+        VolumeManager.singleton.dof.active = false;
         Menu.SetActive(false);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -27,7 +27,7 @@ public class EscapeMenu : MonoBehaviour
     public void ToMainMenu()
     {
         LevelLoader.singleton.LoadLevel(0);
-        VolumeManager.dof.active = false;
+        VolumeManager.singleton.dof.active = false;
     }
 
     public void Exit()

@@ -8,12 +8,12 @@ using UnityEngine.SceneManagement;
 public class VolumeManager : MonoBehaviour
 {
     public static VolumeManager singleton;
-    private static Volume volume;
-    public static bool smoothChangeVignetteOn { get; private set; }
-    public static bool smoothChangeVignetteOff { get; private set; }
-    private static float vignetteTargetIntensity;
-    public static Vignette vignette;
-    public static DepthOfField dof;
+    private Volume volume;
+    public bool smoothChangeVignetteOn { get; private set; }
+    public bool smoothChangeVignetteOff { get; private set; }
+    private float vignetteTargetIntensity;
+    public Vignette vignette;
+    public DepthOfField dof;
 
     void Awake()
     {
@@ -28,59 +28,59 @@ public class VolumeManager : MonoBehaviour
             return;
         }
 
-        smoothChangeVignetteOn = false;
-        smoothChangeVignetteOff = false;
+        singleton.smoothChangeVignetteOn = false;
+        singleton.smoothChangeVignetteOff = false;
         SceneManager.sceneLoaded += OnSceneLoaded;
-        volume = gameObject.GetComponent<Volume>();
+        singleton.volume = gameObject.GetComponent<Volume>();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.buildIndex != 0)
         {
-            if (volume.profile.TryGet(out vignette))
+            if (singleton.volume.profile.TryGet(out singleton.vignette))
             {
-                vignette.active = false;
+                singleton.vignette.active = false;
             }
-            if (volume.profile.TryGet(out dof))
+            if (singleton.volume.profile.TryGet(out singleton.dof))
             {
-                dof.active = false;
+                singleton.dof.active = false;
             }
         }
     }
 
     public void ChangeVignette(Color color, float intensity)
     {
-        smoothChangeVignetteOn = true;
-        vignette.active = true;
-        vignette.color.value = color;
-        vignetteTargetIntensity = intensity;
+        singleton.smoothChangeVignetteOn = true;
+        singleton.vignette.active = true;
+        singleton.vignette.color.value = color;
+        singleton.vignetteTargetIntensity = intensity;
     }
 
     private void Update()
     {
-        if (smoothChangeVignetteOn)
+        if (singleton.smoothChangeVignetteOn)
         {
-            if (vignette.intensity.value < vignetteTargetIntensity)
+            if (singleton.vignette.intensity.value < singleton.vignetteTargetIntensity)
             {
-                vignette.intensity.value += 3 * Time.deltaTime;
+                singleton.vignette.intensity.value += 3 * Time.deltaTime;
             }
             else
             {
-                smoothChangeVignetteOn = false;
-                smoothChangeVignetteOff = true;
+                singleton.smoothChangeVignetteOn = false;
+                singleton.smoothChangeVignetteOff = true;
             }
         }
-        if (smoothChangeVignetteOff)
+        if (singleton.smoothChangeVignetteOff)
         {
-            if (vignette.intensity.value > 0)
+            if (singleton.vignette.intensity.value > 0)
             {
-                vignette.intensity.value -= 2 * Time.deltaTime;
+                singleton.vignette.intensity.value -= 2 * Time.deltaTime;
             }
             else
             {
-                vignette.active = false;
-                smoothChangeVignetteOff = false;
+                singleton.vignette.active = false;
+                singleton.smoothChangeVignetteOff = false;
             }
         }
     }

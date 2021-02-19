@@ -39,30 +39,30 @@ public class Player : MonoBehaviour
         playerMotor = GetComponent<vThirdPersonMotor>();
         playerAnim = GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody>();
-        volume = GameObject.FindGameObjectWithTag("UIVolume").GetComponent<Volume>();
+        volume = GameObject.FindGameObjectWithTag("UIVolume")?.GetComponent<Volume>();
         EnemyAttack.MakeDamage += TakeDamage;
     }
 
     void Update()
     {
         isCollided = false;
-        if(playerMotor.inputMagnitude > 0.7 && !SoundManager.singleton.soundRun.isPlaying)
+        if(playerMotor.inputMagnitude > 0.7 && SoundManager.singleton?.soundRun.isPlaying == false)
         {
-            SoundManager.singleton.soundRun.Play();
+            SoundManager.singleton?.soundRun.Play();
         }
         if(playerMotor.inputMagnitude < 0.7 || isRoll || !playerMotor.isGrounded || playerAnim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            SoundManager.singleton.soundRun.Stop();
+            SoundManager.singleton?.soundRun.Stop();
         }
-        if (isRoll && !SoundManager.singleton.soundRoll.isPlaying )
+        if (isRoll && SoundManager.singleton?.soundRoll.isPlaying == false)
         {
-            SoundManager.singleton.soundRoll.pitch = Random.Range(1f, 1.2f);
-            SoundManager.singleton.soundRoll.PlayDelayed(0.12f);
+            if(SoundManager.singleton) SoundManager.singleton.soundRoll.pitch = Random.Range(1f, 1.2f);
+            SoundManager.singleton?.soundRoll.PlayDelayed(0.12f);
         }
         if (!playerMotor.isGrounded)
         {
             isRoll = false;
-            SoundManager.singleton.soundRoll.Stop();
+            SoundManager.singleton?.soundRoll.Stop();
         }
         if (Input.GetKeyDown(KeyCode.Escape) && isAlive)
         {
@@ -79,8 +79,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerAnim.SetBool("Attack", true);
-            CancelInvoke(nameof(SetAttackFalse));
-            
+            //CancelInvoke(nameof(SetAttackFalse));
         }
         if (playerAnim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
@@ -89,7 +88,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            Invoke(nameof(SetAttackFalse), 0.29f);
+            //Invoke(nameof(SetAttackFalse), 0.29f);
             playerAnim.SetBool("Attack", false);
         }
         if (!playerAnim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
@@ -117,7 +116,7 @@ public class Player : MonoBehaviour
             playerBody.drag = 0;
             playerBody.useGravity = true;
         }
-        if (HPManager.HPCount < 1 && isAlive)
+        if (HPManager.singleton?.HPCount < 1 && isAlive)
         {
             playerAnim.SetBool("IsDead", true);
             playerMotor.enabled = false;
@@ -141,22 +140,25 @@ public class Player : MonoBehaviour
     private void PauseGame()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        VolumeManager.dof.active = true;
+        if(VolumeManager.singleton) VolumeManager.singleton.dof.active = true;
         Time.timeScale = 0;
-        Menu.SetActive(true);
+        Menu?.SetActive(true);
         isRoll = false;
-        SoundManager.singleton.soundRun.Stop();
+        SoundManager.singleton?.soundRun.Stop();
     }
 
     private void GameOver()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        VolumeManager.dof.active = true;
-        VolumeManager.vignette.active = true;
-        VolumeManager.vignette.color.value = new Color(0.86f, 0.14f, 0.14f);
-        VolumeManager.vignette.intensity.value = 0.5f;
+        if (VolumeManager.singleton)
+        {
+            VolumeManager.singleton.dof.active = true;
+            VolumeManager.singleton.vignette.active = true;
+            VolumeManager.singleton.vignette.color.value = new Color(0.86f, 0.14f, 0.14f);
+            VolumeManager.singleton.vignette.intensity.value = 0.5f;
+        }
         Time.timeScale = 0;
-        GameOverMenu.SetActive(true);
+        GameOverMenu?.SetActive(true);
     }
 
     public void SetRotation(float value)
